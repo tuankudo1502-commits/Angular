@@ -1,0 +1,265 @@
+<app-admin-layout>
+  <div class="admin-products">
+    <div class="admin-container">
+      <div class="page-header">
+        <div class="header-title">
+          <h2>Quản lý sản phẩm</h2>
+          <p>Thêm, sửa và ẩn/hiện sản phẩm từ cùng một màn hình quản trị</p>
+        </div>
+        <button class="btn-add" type="button" (click)="openCreateForm()">
+          <i class='bx bx-plus'></i> Thêm sản phẩm mới
+        </button>
+      </div>
+
+      @if (success()) {
+        <div class="state-message success" role="status">{{ success() }}</div>
+      }
+
+      @if (error()) {
+        <div class="state-message error" role="alert">{{ error() }}</div>
+      }
+
+      <section class="content-grid">
+        <aside class="panel form-panel" #productFormPanel>
+          <div class="panel-header stacked">
+            <div>
+              <p class="panel-kicker">{{ selectedProduct() ? 'Chỉnh sửa' : 'Tạo mới' }}</p>
+              <h3>{{ formTitle() }}</h3>
+            </div>
+            <p class="panel-helper">{{ formDescription() }}</p>
+          </div>
+
+          <form class="product-form" [formGroup]="productForm" (ngSubmit)="saveProduct()">
+            <div class="form-grid two-columns">
+              <label>
+                <span>Tên sản phẩm</span>
+                <input type="text" formControlName="name" placeholder="Ví dụ: Phantom Oni" />
+                @if (getFieldError('name')) {
+                  <small class="field-error">{{ getFieldError('name') }}</small>
+                }
+              </label>
+
+              <label>
+                <span>Giá</span>
+                <input type="number" formControlName="price" min="0" />
+                @if (getFieldError('price')) {
+                  <small class="field-error">{{ getFieldError('price') }}</small>
+                }
+              </label>
+
+              <label>
+                <span>Game</span>
+                <select formControlName="game">
+                  <option value="">Chọn game</option>
+                  @for (game of supportedGames; track game) {
+                    <option [value]="game">{{ game }}</option>
+                  }
+                </select>
+                @if (getFieldError('game')) {
+                  <small class="field-error">{{ getFieldError('game') }}</small>
+                }
+              </label>
+
+              <label>
+                <span>Độ hiếm</span>
+                <select formControlName="rarity">
+                  <option value="Premium">Premium</option>
+                  <option value="Deluxe">Deluxe</option>
+                  <option value="Covert">Covert</option>
+                  <option value="Ultra">Ultra</option>
+                  <option value="Legendary">Legendary</option>
+                  <option value="Ancient">Ancient</option>
+                </select>
+                @if (getFieldError('rarity')) {
+                  <small class="field-error">{{ getFieldError('rarity') }}</small>
+                }
+              </label>
+
+              <label>
+                <span>Danh mục</span>
+                <select formControlName="category">
+                  <option value="">Chưa phân loại</option>
+                  @for (category of availableCategories(); track category._id) {
+                    <option [value]="category._id">{{ category.name }}</option>
+                  }
+                </select>
+              </label>
+
+              <label>
+                <span>Tồn kho</span>
+                <input type="number" formControlName="stock" min="0" />
+                @if (getFieldError('stock')) {
+                  <small class="field-error">{{ getFieldError('stock') }}</small>
+                }
+              </label>
+
+              <label>
+                <span>Doanh số</span>
+                <input type="number" formControlName="sales" min="0" />
+                @if (getFieldError('sales')) {
+                  <small class="field-error">{{ getFieldError('sales') }}</small>
+                }
+              </label>
+
+              <label>
+                <span>Ảnh chính</span>
+                <input type="text" formControlName="image" placeholder="/assets/img/valorant.svg" />
+                @if (getFieldError('image')) {
+                  <small class="field-error">{{ getFieldError('image') }}</small>
+                }
+              </label>
+
+              <label>
+                <span>Ảnh phụ</span>
+                <input type="text" formControlName="mainImage" placeholder="URL ảnh phụ" />
+              </label>
+
+              <label>
+                <span>Ảnh thứ hai</span>
+                <input type="text" formControlName="subImage" placeholder="URL ảnh thứ hai" />
+              </label>
+
+              <label>
+                <span>Ngày phát hành</span>
+                <input type="date" formControlName="releaseDate" />
+              </label>
+            </div>
+
+            <label>
+              <span>Mô tả</span>
+              <textarea formControlName="description" rows="4" placeholder="Mô tả ngắn về sản phẩm"></textarea>
+              @if (getFieldError('description')) {
+                <small class="field-error">{{ getFieldError('description') }}</small>
+              }
+            </label>
+
+            <div class="toggle-row">
+              <label class="checkbox-field">
+                <input type="checkbox" formControlName="isNew" />
+                <span>Sản phẩm mới</span>
+              </label>
+              <label class="checkbox-field">
+                <input type="checkbox" formControlName="isLimited" />
+                <span>Sản phẩm giới hạn</span>
+              </label>
+              <label class="checkbox-field">
+                <input type="checkbox" formControlName="isActive" />
+                <span>Đang hiển thị</span>
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn-secondary" type="button" (click)="startCreate()">Làm mới</button>
+              <button class="btn-primary" type="submit" [disabled]="saving()">
+                {{ saving() ? 'Đang lưu...' : (selectedProduct() ? 'Cập nhật sản phẩm' : 'Thêm sản phẩm') }}
+              </button>
+            </div>
+          </form>
+        </aside>
+
+        <article class="panel list-panel">
+          <div class="panel-header">
+            <div>
+              <p class="panel-kicker">Danh sách</p>
+              <h3>Các sản phẩm hiện có</h3>
+            </div>
+
+            <div class="toolbar">
+              <label class="search-field">
+                <i class='bx bx-search'></i>
+                <input
+                  type="search"
+                  placeholder="Tìm tên sản phẩm, game, danh mục"
+                  [value]="searchTerm()"
+                  (input)="onSearchInput($event)"
+                />
+              </label>
+
+              <select class="status-filter" [value]="gameFilter()" (change)="onGameFilterInput($event)">
+                <option value="all">Tất cả Game</option>
+                @for (game of availableGames(); track game) {
+                  <option [value]="game.toLowerCase()">{{ game }}</option>
+                }
+              </select>
+
+              <select class="status-filter" [value]="rarityFilter()" (change)="onRarityFilterInput($event)">
+                <option value="all">Tất cả độ hiếm</option>
+                @for (rarity of availableRarities(); track rarity) {
+                  <option [value]="rarity.toLowerCase()">{{ rarity }}</option>
+                }
+              </select>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <table class="product-table">
+              <thead>
+                <tr>
+                  <th>Sản phẩm</th>
+                  <th>Game</th>
+                  <th>Độ hiếm</th>
+                  <th>Giá niêm yết</th>
+                  <th>Kho hàng</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                @if (loading()) {
+                  <tr>
+                    <td colspan="7" class="table-state">Đang tải sản phẩm...</td>
+                  </tr>
+                } @else if (filteredProducts().length === 0) {
+                  <tr>
+                    <td colspan="7" class="table-state">Không có sản phẩm phù hợp.</td>
+                  </tr>
+                } @else {
+                  @for (product of filteredProducts(); track trackByProductId($index, product)) {
+                    <tr>
+                      <td class="product-info">
+                        <img [src]="resolveImage(product)" [alt]="product.name">
+                        <div class="name-wrapper">
+                          <span class="p-name">{{ product.name }}</span>
+                          <span class="p-id">{{ resolveCategoryName(product.category) }}</span>
+                        </div>
+                      </td>
+                      <td><span class="game-tag">{{ product.game || 'N/A' }}</span></td>
+                      <td><span class="rarity-text">{{ product.rarity || 'N/A' }}</span></td>
+                      <td class="p-price">{{ formatPrice(product.price) }}</td>
+                      <td>{{ product.stock ?? 0 }}</td>
+                      <td>
+                        <span class="status-active" [class.status-inactive]="!product.isActive">
+                          {{ getStatusLabel(product) }}
+                        </span>
+                      </td>
+                      <td class="actions">
+                        <button class="icon-btn edit" title="Sửa" type="button" (click)="startEdit(product)">
+                          <i class='bx bx-edit-alt'></i>
+                        </button>
+                        <button
+                          class="icon-btn delete"
+                          type="button"
+                          [title]="product.isActive ? 'Ẩn sản phẩm' : 'Hiện sản phẩm'"
+                          (click)="toggleVisibility(product)"
+                        >
+                          <i class='bx' [class.bx-hide]="product.isActive" [class.bx-show]="!product.isActive"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  }
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination">
+            <span>Tổng {{ filteredProducts().length }} sản phẩm</span>
+            <div class="page-btns">
+              <button class="active" type="button">1</button>
+            </div>
+          </div>
+        </article>
+      </section>
+    </div>
+  </div>
+</app-admin-layout>

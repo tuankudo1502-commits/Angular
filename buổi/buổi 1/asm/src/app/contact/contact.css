@@ -1,0 +1,140 @@
+.contact-section {
+  padding: 100px 0;
+  background-color: #0a0a0a;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+}
+
+.contact-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contact-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.contact-header .sub-title {
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-size: 11px;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.contact-header h1 {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+/* Wrapper Layout */
+.contact-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 100px;
+}
+
+/* Info Side */
+.info-box {
+  margin-bottom: 50px;
+}
+
+.info-box h3 {
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 20px;
+  letter-spacing: 1.5px;
+}
+
+.info-box p {
+  color: #888;
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+.social-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.social-grid a {
+  color: #888;
+  text-decoration: none;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: 0.3s;
+}
+
+.social-grid a:hover {
+  color: #fff;
+  transform: translateX(5px);
+}
+
+/* Form Side */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #333;
+  padding: 12px 0;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.input-group select {
+  color: #888;
+  appearance: none;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+  border-color: #fff;
+}
+
+.btn-send {
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 18px 45px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  transition: 0.4s;
+}
+
+.btn-send:hover {
+  background: #888;
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .contact-wrapper {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+}

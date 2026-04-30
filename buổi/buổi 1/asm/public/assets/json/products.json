@@ -1,0 +1,162 @@
+[
+  {
+    "name": "AK-47 | Redline",
+    "game": "CS:GO",
+    "price": 120,
+    "mainImage": "https://example.com/images/ak47-redline-main.jpg",
+    "subImage": "https://example.com/images/ak47-redline-sub.jpg",
+    "description": "Skin AK-47 với thiết kế đỏ đen mạnh mẽ, cực kỳ phổ biến trong cộng đồng CS:GO."
+  },
+  {
+    "name": "AWP | Dragon Lore",
+    "game": "CS:GO",
+    "price": 2500,
+    "mainImage": "https://example.com/images/awp-dragonlore-main.jpg",
+    "subImage": "https://example.com/images/awp-dragonlore-sub.jpg",
+    "description": "Một trong những skin hiếm và đắt nhất, nổi bật với hình rồng vàng huyền thoại."
+  },
+  {
+    "name": "M4A4 | Howl",
+    "game": "CS:GO",
+    "price": 1800,
+    "mainImage": "https://example.com/images/m4a4-howl-main.jpg",
+    "subImage": "https://example.com/images/m4a4-howl-sub.jpg",
+    "description": "Skin bị cấm phát hành, mang giá trị sưu tầm cực cao với hình sói gầm."
+  },
+  {
+    "name": "Vandal | Prime",
+    "game": "Valorant",
+    "price": 50,
+    "mainImage": "https://example.com/images/vandal-prime-main.jpg",
+    "subImage": "https://example.com/images/vandal-prime-sub.jpg",
+    "description": "Skin Vandal với hiệu ứng âm thanh và animation cao cấp, cực kỳ được ưa chuộng."
+  },
+  {
+    "name": "Phantom | Oni",
+    "game": "Valorant",
+    "price": 45,
+    "mainImage": "https://example.com/images/phantom-oni-main.jpg",
+    "subImage": "https://example.com/images/phantom-oni-sub.jpg",
+    "description": "Thiết kế lấy cảm hứng từ mặt nạ Oni Nhật Bản, mang phong cách huyền bí."
+  },
+  {
+    "name": "Operator | Elderflame",
+    "game": "Valorant",
+    "price": 80,
+    "mainImage": "https://example.com/images/operator-elderflame-main.jpg",
+    "subImage": "https://example.com/images/operator-elderflame-sub.jpg",
+    "description": "Skin biến khẩu súng thành một con rồng sống, với hiệu ứng lửa cực kỳ ấn tượng."
+  },
+  {
+    "name": "AK-47 | Fire Serpent",
+    "game": "CS:GO",
+    "price": 900,
+    "mainImage": "https://example.com/images/ak47-fireserpent-main.jpg",
+    "subImage": "https://example.com/images/ak47-fireserpent-sub.jpg",
+    "description": "Skin với họa tiết rắn lửa độc đáo, thuộc hàng hiếm và có giá trị cao."
+  },
+  {
+    "name": "Karambit | Fade",
+    "game": "CS:GO",
+    "price": 1500,
+    "mainImage": "https://example.com/images/karambit-fade-main.jpg",
+    "subImage": "https://example.com/images/karambit-fade-sub.jpg",
+    "description": "Dao Karambit với hiệu ứng màu chuyển gradient cực đẹp và nổi bật."
+  },
+  {
+    "name": "Butterfly Knife | Doppler",
+    "game": "CS:GO",
+    "price": 1300,
+    "mainImage": "https://example.com/images/butterfly-doppler-main.jpg",
+    "subImage": "https://example.com/images/butterfly-doppler-sub.jpg",
+    "description": "Dao bướm với hiệu ứng Doppler bóng bẩy, được nhiều game thủ săn đón."
+  },
+  {
+    "name": "Sheriff | Reaver",
+    "game": "Valorant",
+    "price": 40,
+    "mainImage": "https://example.com/images/sheriff-reaver-main.jpg",
+    "subImage": "https://example.com/images/sheriff-reaver-sub.jpg",
+    "description": "Skin Sheriff mang phong cách hắc ám với hiệu ứng tím huyền bí."
+  },
+  {
+    "name": "Classic | Glitchpop",
+    "game": "Valorant",
+    "price": 35,
+    "mainImage": "https://example.com/images/classic-glitchpop-main.jpg",
+    "subImage": "https://example.com/images/classic-glitchpop-sub.jpg",
+    "description": "Thiết kế neon cyberpunk rực rỡ, mang đậm phong cách glitch hiện đại."
+  },
+  {
+    "name": "Desert Eagle | Blaze",
+    "game": "CS:GO",
+    "price": 700,
+    "mainImage": "https://example.com/images/deagle-blaze-main.jpg",
+    "subImage": "https://example.com/images/deagle-blaze-sub.jpg",
+    "description": "Skin Desert Eagle với họa tiết lửa cháy cực ngầu và mang tính biểu tượng."
+  },
+  {
+    "name": "USP-S | Kill Confirmed",
+    "game": "CS:GO",
+    "price": 300,
+    "mainImage": "https://example.com/images/usp-killconfirmed-main.jpg",
+    "subImage": "https://example.com/images/usp-killconfirmed-sub.jpg",
+    "description": "Skin có hiệu ứng viên đạn xuyên đầu độc đáo, cực kỳ nổi bật."
+  },
+  {
+    "name": "Ghost | Sovereign",
+    "game": "Valorant",
+    "price": 30,
+    "mainImage": "https://example.com/images/ghost-sovereign-main.jpg",
+    "subImage": "https://example.com/images/ghost-sovereign-sub.jpg",
+    "description": "Thiết kế trắng vàng sang trọng, mang cảm giác hoàng gia."
+  },
+  {
+    "name": "Spectre | BlastX",
+    "game": "Valorant",
+    "price": 45,
+    "mainImage": "https://example.com/images/spectre-blastx-main.jpg",
+    "subImage": "https://example.com/images/spectre-blastx-sub.jpg",
+    "description": "Skin mang phong cách đồ chơi Nerf vui nhộn với hiệu ứng độc đáo."
+  },
+  {
+    "name": "M4A1-S | Hyper Beast",
+    "game": "CS:GO",
+    "price": 250,
+    "mainImage": "https://example.com/images/m4a1s-hyperbeast-main.jpg",
+    "subImage": "https://example.com/images/m4a1s-hyperbeast-sub.jpg",
+    "description": "Skin với hình quái thú đầy màu sắc, cực kỳ nổi bật trong trận đấu."
+  },
+  {
+    "name": "Frenzy | Elderflame",
+    "game": "Valorant",
+    "price": 35,
+    "mainImage": "https://example.com/images/frenzy-elderflame-main.jpg",
+    "subImage": "https://example.com/images/frenzy-elderflame-sub.jpg",
+    "description": "Phiên bản súng lục của dòng skin rồng nổi tiếng Elderflame."
+  },
+  {
+    "name": "Glock-18 | Water Elemental",
+    "game": "CS:GO",
+    "price": 150,
+    "mainImage": "https://example.com/images/glock-water-main.jpg",
+    "subImage": "https://example.com/images/glock-water-sub.jpg",
+    "description": "Skin với hình nguyên tố nước sống động và màu sắc bắt mắt."
+  },
+  {
+    "name": "Judge | Oni",
+    "game": "Valorant",
+    "price": 50,
+    "mainImage": "https://example.com/images/judge-oni-main.jpg",
+    "subImage": "https://example.com/images/judge-oni-sub.jpg",
+    "description": "Shotgun với phong cách Oni huyền bí, cực kỳ phù hợp lối chơi áp sát."
+  },
+  {
+    "name": "MP9 | Starlight Protector",
+    "game": "CS:GO",
+    "price": 200,
+    "mainImage": "https://example.com/images/mp9-starlight-main.jpg",
+    "subImage": "https://example.com/images/mp9-starlight-sub.jpg",
+    "description": "Skin mang phong cách anime dễ thương nhưng vẫn đầy sức hút."
+  }
+]

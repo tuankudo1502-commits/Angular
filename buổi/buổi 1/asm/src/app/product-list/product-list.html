@@ -1,0 +1,165 @@
+<div class="product-page">
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1>Skin Vũ Khí</h1>
+      <p>Khám phá bộ sưu tập skin vũ khí độc đáo và đẳng cấp</p>
+    </div>
+
+    <div class="product-layout">
+      <!-- Sidebar Filters -->
+      <aside class="filters-sidebar">
+        <div class="filters-header">
+          <h3>Bộ Lọc</h3>
+          <button class="reset-btn" (click)="resetFilters()">Đặt lại</button>
+        </div>
+
+        <!-- Search -->
+        <div class="filter-section">
+          <label class="filter-label">Tìm kiếm</label>
+          <input
+            type="text"
+            class="search-input"
+            [(ngModel)]="searchKeyword"
+            (ngModelChange)="applyFilters()"
+            placeholder="Tìm theo tên vũ khí..."
+          />
+        </div>
+
+        <!-- Category Filter -->
+        <div class="filter-section">
+          <label class="filter-label">Danh Mục</label>
+          <div class="filter-options">
+            <div
+              class="filter-option"
+              [class.active]="selectedCategory === 'all'"
+              (click)="selectedCategory = 'all'; applyFilters()"
+            >
+              <span>Tất cả</span>
+              <span class="count">{{ allProducts.length }}</span>
+            </div>
+            <div
+              class="filter-option"
+              *ngFor="let category of categories"
+              [class.active]="selectedCategory === category._id"
+              (click)="selectedCategory = category._id; applyFilters()"
+            >
+              <span>{{ category.name }}</span>
+              <span class="count">{{ allProducts.filter(p => (typeof p.category === 'object' ? p.category._id : p.category) === category._id).length }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Game Filter -->
+        <div class="filter-section">
+          <label class="filter-label">Trò Chơi</label>
+          <div class="filter-options">
+            <div
+              class="filter-option"
+              [class.active]="selectedGame === 'all'"
+              (click)="selectedGame = 'all'; applyFilters()"
+            >
+              <span>Tất cả</span>
+              <span class="count">{{ allProducts.length }}</span>
+            </div>
+            <div
+              class="filter-option"
+              *ngFor="let game of games"
+              [class.active]="selectedGame === game"
+              (click)="selectedGame = game; applyFilters()"
+            >
+              <span>{{ game }}</span>
+              <span class="count">{{ allProducts.filter(p => p.game === game).length }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rarity Filter -->
+        <div class="filter-section">
+          <label class="filter-label">Độ Hiếm</label>
+          <div class="filter-options">
+            <div
+              class="filter-option"
+              [class.active]="selectedRarity === 'all'"
+              (click)="selectedRarity = 'all'; applyFilters()"
+            >
+              <span>Tất cả</span>
+            </div>
+            <div
+              class="filter-option"
+              *ngFor="let rarity of rarities"
+              [class.active]="selectedRarity === rarity"
+              (click)="selectedRarity = rarity; applyFilters()"
+            >
+              <span>{{ rarity }}</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="products-main">
+        <!-- Sort Bar -->
+        <div class="sort-bar">
+          <div class="result-info">
+            <span class="result-count"
+              >Tìm thấy <strong>{{ getTotalProducts() }}</strong> vật phẩm</span
+            >
+          </div>
+          <div class="sort-wrapper">
+            <label>Sắp xếp:</label>
+            <select class="sort-select" [(ngModel)]="sortOption" (ngModelChange)="applyFilters()">
+              <option value="default">Mặc định</option>
+              <option value="price-asc">Giá: Thấp đến Cao</option>
+              <option value="price-desc">Giá: Cao đến Thấp</option>
+              <option value="name-asc">Tên: A-Z</option>
+              <option value="name-desc">Tên: Z-A</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" *ngIf="getPaginatedProducts().length > 0">
+          <app-product-item *ngFor="let product of getPaginatedProducts()" [p]="product">
+          </app-product-item>
+        </div>
+
+        <!-- No Results -->
+        <div class="no-results" *ngIf="getPaginatedProducts().length === 0">
+          <div class="no-results-content">
+            <span class="no-results-icon">🔍</span>
+            <h3>Không tìm thấy sản phẩm</h3>
+            <p>Rất tiếc, không tìm thấy vũ khí phù hợp với bộ lọc của bạn.</p>
+            <button class="btn-primary" (click)="resetFilters()">Xóa bộ lọc</button>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" *ngIf="totalPages > 1">
+          <button
+            class="page-btn"
+            [disabled]="currentPage === 1"
+            (click)="changePage(currentPage - 1)"
+          >
+            ❮
+          </button>
+          <button
+            class="page-btn"
+            *ngFor="let page of getPageNumbers()"
+            [class.active]="page === currentPage"
+            (click)="changePage(page)"
+          >
+            {{ page }}
+          </button>
+          <button
+            class="page-btn"
+            [disabled]="currentPage === totalPages"
+            (click)="changePage(currentPage + 1)"
+          >
+            ❯
+          </button>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>

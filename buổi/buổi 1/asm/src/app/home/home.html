@@ -1,0 +1,117 @@
+<div class="home">
+  <!-- Section 1: Banner -->
+  <section class="hero">
+    <div class="banner-container">
+      <div
+        class="banner-slide"
+        [style.transform]="'translateX(-' + currentBannerIndex * 100 + '%)'"
+      >
+        <div class="banner" *ngFor="let banner of banners">
+          <img [src]="banner.image" [alt]="banner.title" />
+          <div class="banner-overlay"></div>
+          <div class="banner-content">
+            <span class="banner-tag">{{ banner.game }}</span>
+            <h1>{{ banner.title }}</h1>
+            <p>{{ banner.subtitle }}</p>
+            <button
+              class="btn-primary"
+              [routerLink]="banner.link"
+              [queryParams]="banner.queryParams"
+            >
+              {{ banner.buttonText }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button class="banner-nav prev" (click)="prevBanner()">❮</button>
+      <button class="banner-nav next" (click)="nextBanner()">❯</button>
+
+      <div class="banner-dots">
+        <span
+          *ngFor="let banner of banners; let i = index"
+          class="dot"
+          [class.active]="i === currentBannerIndex"
+          (click)="goToBanner(i)"
+        ></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Sản phẩm mới -->
+  <section class="products-section new-products">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-wrapper">
+          <span class="section-badge">🔥 Mới ra mắt</span>
+          <h2 class="section-title">Sản Phẩm Mới</h2>
+          <p class="section-desc">Những skin vũ khí vừa cập nhật, độc quyền chỉ có tại L&P Store</p>
+        </div>
+        <a routerLink="/products" class="view-all">Xem tất cả →</a>
+      </div>
+
+      <div class="products-grid">
+        <app-product-item *ngFor="let product of newProducts.slice(0, 6)" [p]="product">
+        </app-product-item>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Sản phẩm nổi bật -->
+  <section class="products-section featured-products">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-wrapper">
+          <span class="section-badge">⭐ Best Seller</span>
+          <h2 class="section-title">Sản Phẩm Nổi Bật</h2>
+          <p class="section-desc">Được yêu thích nhất trong tháng, săn ngay kẻo hết</p>
+        </div>
+        <a routerLink="/products" class="view-all">Xem tất cả →</a>
+      </div>
+
+      <div class="products-grid">
+        <app-product-item *ngFor="let product of featuredProducts.slice(0, 6)" [p]="product">
+        </app-product-item>
+      </div>
+
+      <!-- Banner quảng cáo nhỏ -->
+      <div class="promo-banner">
+        <div class="promo-content">
+          <div class="promo-text">
+            <span class="promo-discount">-30%</span>
+            <h3>Flash Sale</h3>
+            <p>Giảm giá sốc cho thành viên mới</p>
+          </div>
+          <button class="btn-outline" routerLink="/register">Đăng ký ngay</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Sản phẩm hiếm -->
+  <section class="products-section rare-products">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-wrapper">
+          <span class="section-badge">💎 Limited Edition</span>
+          <h2 class="section-title">Sản Phẩm Hiếm</h2>
+          <p class="section-desc">Số lượng có hạn, không thể bỏ lỡ</p>
+        </div>
+        <a routerLink="/products" class="view-all">Xem tất cả →</a>
+      </div>
+
+      <div class="products-grid">
+        <div class="product-rare-item" *ngFor="let product of rareProducts.slice(0, 6)">
+          <app-product-item [p]="product"></app-product-item>
+          <div class="rare-badge">
+            <span class="rare-icon">💎</span>
+            <span class="rare-text">Hiếm</span>
+          </div>
+          <div class="stock-badge" *ngIf="product.stock">
+            <span>Còn {{ product.stock }} suất</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

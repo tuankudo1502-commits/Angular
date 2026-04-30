@@ -1,0 +1,12 @@
+.product-item {
+    width: 200px;         /* Độ rộng cố định cho mỗi item */
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    color: aliceblue;
+}
+
+.product-item img {
+    max-width: 100%;      /* Đảm bảo ảnh không tràn ra ngoài item */
+    height: auto;
+}

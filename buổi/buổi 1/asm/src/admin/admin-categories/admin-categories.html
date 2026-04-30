@@ -1,0 +1,231 @@
+<app-admin-layout>
+  <div class="admin-categories">
+    <div class="page-glow page-glow-left"></div>
+    <div class="page-glow page-glow-right"></div>
+
+    <div class="admin-container">
+    <header class="page-header">
+      <div class="header-info">
+        <p class="eyebrow">Admin / Categories</p>
+        <h2>Quản lý danh mục</h2>
+        <p>Thêm, sửa và ẩn danh mục trước khi gắn vào sản phẩm.</p>
+      </div>
+
+      <div class="header-actions">
+        <a class="btn-secondary" routerLink="/admin/dashboard">
+          <i class='bx bx-arrow-back'></i>
+          Dashboard
+        </a>
+        <button class="btn-primary" type="button" (click)="startCreate()">
+          <i class='bx bx-folder-plus'></i>
+          Thêm danh mục
+        </button>
+      </div>
+    </header>
+
+    <section class="category-stats" aria-label="Thống kê danh mục">
+      <article class="cat-stat-card accent-cyan">
+        <span class="cat-stat-label">Tổng danh mục</span>
+        <strong>{{ totalCategories() }}</strong>
+        <small>Danh mục trong hệ thống</small>
+      </article>
+
+      <article class="cat-stat-card accent-green">
+        <span class="cat-stat-label">Đang hiển thị</span>
+        <strong>{{ activeCategories() }}</strong>
+        <small>Danh mục active</small>
+      </article>
+
+      <article class="cat-stat-card accent-amber">
+        <span class="cat-stat-label">Đã ẩn</span>
+        <strong>{{ inactiveCategories() }}</strong>
+        <small>Danh mục tạm ngưng</small>
+      </article>
+
+      <article class="cat-stat-card accent-violet">
+        <span class="cat-stat-label">Sản phẩm liên kết</span>
+        <strong>{{ totalProducts() }}</strong>
+        <small>Đếm từ toàn bộ danh mục</small>
+      </article>
+    </section>
+
+    @if (error()) {
+      <div class="alert alert-error" role="alert">
+        <i class='bx bx-error-circle'></i>
+        <span>{{ error() }}</span>
+      </div>
+    }
+
+    @if (success()) {
+      <div class="alert alert-success" role="status">
+        <i class='bx bx-check-circle'></i>
+        <span>{{ success() }}</span>
+      </div>
+    }
+
+    <section class="content-grid">
+      <article class="panel list-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker">Danh sách</p>
+            <h3>Các danh mục hiện có</h3>
+          </div>
+
+          <div class="toolbar">
+            <label class="search-field">
+              <i class='bx bx-search'></i>
+              <input
+                type="search"
+                [value]="searchTerm()"
+                (input)="onSearchInput($event)"
+                placeholder="Tìm theo tên hoặc mô tả"
+              />
+            </label>
+
+            <select
+              class="status-filter"
+              [value]="statusFilter()"
+              (change)="onStatusFilterInput($event)"
+            >
+              <option value="all">Tất cả</option>
+              <option value="active">Đang hiển thị</option>
+              <option value="inactive">Đã ẩn</option>
+            </select>
+          </div>
+        </div>
+
+        @if (loading()) {
+          <div class="empty-state compact">
+            <div class="spinner"></div>
+            <p>Đang tải danh mục...</p>
+          </div>
+        } @else if (filteredCategories().length === 0) {
+          <div class="empty-state">
+            <i class='bx bx-folder-open'></i>
+            <h4>Chưa có danh mục phù hợp</h4>
+            <p>Thử đổi bộ lọc hoặc thêm danh mục đầu tiên để bắt đầu.</p>
+          </div>
+        } @else {
+          <div class="table-wrap">
+            <table class="category-table">
+              <thead>
+                <tr>
+                  <th>Danh mục</th>
+                  <th>Mô tả</th>
+                  <th>Liên kết</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (category of filteredCategories(); track category._id) {
+                  <tr>
+                    <td>
+                      <div class="category-cell">
+                        <img
+                          class="category-image"
+                          [src]="category.image || '/assets/img/valorant.svg'"
+                          [alt]="category.name"
+                        />
+                        <div>
+                          <strong>{{ category.name }}</strong>
+                          <span>{{ getParentCategoryName(category.parentCategory) }}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <p class="category-desc">{{ category.description }}</p>
+                    </td>
+                    <td>
+                      <span class="product-count">{{ category.productCount || 0 }} sản phẩm</span>
+                    </td>
+                    <td>
+                      <span class="status-badge" [class.status-active]="category.isActive" [class.status-inactive]="!category.isActive">
+                        {{ category.isActive ? 'Hiển thị' : 'Đã ẩn' }}
+                      </span>
+                    </td>
+                    <td>
+                      <div class="actions">
+                        <button class="icon-btn edit" type="button" (click)="startEdit(category)">
+                          <i class='bx bx-edit-alt'></i>
+                        </button>
+                        <button
+                          class="icon-btn toggle"
+                          type="button"
+                          [attr.aria-label]="category.isActive ? 'Ẩn danh mục' : 'Hiện danh mục'"
+                          [title]="category.isActive ? 'Ẩn danh mục' : 'Hiện danh mục'"
+                          (click)="toggleCategoryVisibility(category)"
+                        >
+                          <i class='bx' [class.bx-hide]="category.isActive" [class.bx-show]="!category.isActive"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </article>
+
+      <aside class="panel form-panel">
+        <div class="panel-header stacked">
+          <div>
+            <p class="panel-kicker">{{ selectedCategory() ? 'Chỉnh sửa' : 'Tạo mới' }}</p>
+            <h3>{{ formTitle() }}</h3>
+          </div>
+          <p class="panel-helper">{{ formDescription() }}</p>
+        </div>
+
+        <form class="category-form" [formGroup]="categoryForm" (ngSubmit)="saveCategory()">
+          <label>
+            <span>Tên danh mục</span>
+            <input type="text" formControlName="name" placeholder="Ví dụ: Valorant" />
+            @if (categoryForm.controls.name.touched && categoryForm.controls.name.invalid) {
+              <small class="field-error">Tên danh mục phải có ít nhất 2 ký tự.</small>
+            }
+          </label>
+
+          <label>
+            <span>Mô tả</span>
+            <textarea formControlName="description" rows="4" placeholder="Mô tả ngắn gọn về danh mục"></textarea>
+            @if (categoryForm.controls.description.touched && categoryForm.controls.description.invalid) {
+              <small class="field-error">Mô tả phải có ít nhất 8 ký tự.</small>
+            }
+          </label>
+
+          <label>
+            <span>Ảnh đại diện</span>
+            <input type="url" formControlName="image" placeholder="/assets/img/valorant.svg" />
+            @if (categoryForm.controls.image.touched && categoryForm.controls.image.invalid) {
+              <small class="field-error">Ảnh đại diện là bắt buộc.</small>
+            }
+          </label>
+
+          <label>
+            <span>Danh mục cha</span>
+            <select formControlName="parentCategory">
+              <option value="">Không có</option>
+              @for (parentCategory of availableParentCategories(); track parentCategory._id) {
+                <option [value]="parentCategory._id">{{ parentCategory.name }}</option>
+              }
+            </select>
+          </label>
+
+          <label class="toggle-field">
+            <input type="checkbox" formControlName="isActive" />
+            <span>Hiển thị danh mục ngay sau khi lưu</span>
+          </label>
+
+          <div class="form-actions">
+            <button class="btn-secondary" type="button" (click)="startCreate()">Làm mới</button>
+            <button class="btn-primary" type="submit" [disabled]="saving()">
+              {{ saving() ? 'Đang lưu...' : (selectedCategory() ? 'Cập nhật' : 'Tạo danh mục') }}
+            </button>
+          </div>
+        </form>
+      </aside>
+    </section>
+    </div>
+  </div>
+</app-admin-layout>

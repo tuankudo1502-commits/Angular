@@ -1,0 +1,40 @@
+<section class="profile-page">
+	@if (isLoading) {
+		<p class="profile-status">Đang tải thông tin tài khoản...</p>
+	} @else if (user) {
+		<article class="profile-card">
+			<img class="avatar" [src]="user.avatar" [alt]="user.name" />
+
+			<div class="info-grid">
+				<h1>Thông tin tài khoản</h1>
+
+				<div class="info-item">
+					<span>Họ tên</span>
+					<strong>{{ user.name }}</strong>
+				</div>
+
+				<div class="info-item">
+					<span>Email</span>
+					<strong>{{ user.email }}</strong>
+				</div>
+
+				<div class="info-item">
+					<span>Số điện thoại</span>
+					<strong>{{ user.phone || 'Chưa cập nhật' }}</strong>
+				</div>
+
+				<div class="info-item">
+					<span>Địa chỉ</span>
+					<strong>{{ user.address || 'Chưa cập nhật' }}</strong>
+				</div>
+
+				<div class="info-item">
+					<span>Vai trò</span>
+					<strong>{{ user.role }}</strong>
+				</div>
+			</div>
+		</article>
+	} @else {
+		<p class="profile-status">Không thể tải thông tin tài khoản.</p>
+	}
+</section>

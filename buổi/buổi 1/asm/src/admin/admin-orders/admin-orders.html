@@ -1,0 +1,93 @@
+<app-admin-layout>
+	<div class="admin-orders-shell">
+		<div class="admin-container">
+			<div class="page-header">
+				<div class="header-title">
+					<h2>Quản lý đơn hàng</h2>
+					<p>Theo dõi trạng thái thanh toán và xử lý đơn phát sinh</p>
+				</div>
+				<button class="btn-add" type="button" (click)="loadOrders()" [disabled]="loading()">
+					<i class='bx bx-download'></i> Xuất báo cáo
+				</button>
+			</div>
+
+			<div class="table-toolbar">
+				<div class="search-bar">
+					<i class='bx bx-search'></i>
+					<input
+						type="text"
+						placeholder="Tìm theo mã đơn, khách hàng..."
+						[value]="searchTerm()"
+						(input)="onSearchInput($event)"
+					>
+				</div>
+				<div class="filter-group">
+					<select [value]="statusFilter()" (change)="onStatusFilterInput($event)">
+						<option value="all">Tất cả trạng thái</option>
+						<option value="pending">Chờ duyệt</option>
+						<option value="processing">Đang xử lý</option>
+						<option value="shipped">Đang giao</option>
+						<option value="delivered">Hoàn tất</option>
+						<option value="cancelled">Đã hủy</option>
+					</select>
+				</div>
+			</div>
+
+			@if (error()) {
+				<div class="state-message" role="alert">{{ error() }}</div>
+			}
+
+			<div class="table-card">
+				<table class="order-table">
+					<thead>
+						<tr>
+							<th>Mã đơn</th>
+							<th>Khách hàng</th>
+							<th>Sản phẩm</th>
+							<th>Giá trị</th>
+							<th>Thanh toán</th>
+							<th>Trạng thái</th>
+							<th>Thao tác</th>
+						</tr>
+					</thead>
+					<tbody>
+						@if (loading()) {
+							<tr>
+								<td colspan="7" class="table-state">Đang tải đơn hàng...</td>
+							</tr>
+						} @else if (filteredOrders().length === 0) {
+							<tr>
+								<td colspan="7" class="table-state">Không có đơn hàng phù hợp.</td>
+							</tr>
+						} @else {
+							@for (order of filteredOrders(); track order._id) {
+								<tr>
+									<td>{{ getOrderCode(order) }}</td>
+									<td class="customer-cell">
+										<img [src]="resolveCustomerAvatar(order)" [alt]="resolveCustomerName(order)">
+										<span>{{ resolveCustomerName(order) }}</span>
+									</td>
+									<td>{{ resolvePrimaryItem(order) }}</td>
+									<td>{{ formatPrice(order.total) }}</td>
+									<td><span class="payment-badge" [class]="'payment-badge ' + getPaymentClass(order)">{{ getPaymentLabel(order) }}</span></td>
+									<td><span class="status-badge" [class]="'status-badge ' + order.status">{{ getStatusLabel(order.status) }}</span></td>
+									<td class="actions">
+										<button class="icon-btn edit" title="Xem" type="button"><i class='bx bx-show'></i></button>
+										<button class="icon-btn delete" title="Hủy" type="button"><i class='bx bx-x-circle'></i></button>
+									</td>
+								</tr>
+							}
+						}
+					</tbody>
+				</table>
+			</div>
+
+			<div class="pagination">
+				<span>Tổng {{ filteredOrders().length }} đơn hàng</span>
+				<div class="page-btns">
+					<button class="active" type="button">1</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</app-admin-layout>

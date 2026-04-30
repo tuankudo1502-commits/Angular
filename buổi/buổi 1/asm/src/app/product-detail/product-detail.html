@@ -1,0 +1,293 @@
+<div class="product-detail-container">
+  <div class="container">
+    <!-- Hiển thị loading -->
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Đang tải thông tin sản phẩm...</p>
+    </div>
+
+    <!-- Hiển thị lỗi -->
+    <div *ngIf="!isLoading && error" class="error-container">
+      <i class="bx bx-error-circle"></i>
+      <h3>Không tìm thấy sản phẩm</h3>
+      <p>{{ error }}</p>
+      <button class="btn-primary" routerLink="/products">Quay lại cửa hàng</button>
+    </div>
+
+    <!-- Hiển thị sản phẩm -->
+    <div *ngIf="!isLoading && product && !error">
+      <!-- Breadcrumb -->
+      <div class="breadcrumb">
+        <a routerLink="/">Trang chủ</a>
+        <span>/</span>
+        <a routerLink="/products">Sản phẩm</a>
+        <span>/</span>
+        <span class="active">{{ product.name }}</span>
+      </div>
+
+      <!-- Product Main Info -->
+      <div class="product-main">
+        <!-- Product Gallery -->
+        <div class="product-gallery">
+          <div class="main-image">
+            <img [src]="selectedImage" [alt]="product.name" />
+            <div class="product-badges">
+              <span class="badge new" *ngIf="product.isNew">Mới</span>
+              <span class="badge limited" *ngIf="product.isLimited">Giới hạn</span>
+            </div>
+          </div>
+          <div class="thumbnail-list" *ngIf="product.image">
+            <div
+              class="thumbnail"
+              [class.active]="selectedImage === product.image"
+              (click)="changeImage(product.image)"
+            >
+              <img [src]="product.image" [alt]="product.name" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-info">
+          <div class="product-header">
+            <div class="product-game">
+              <span>{{ product.game }}</span>
+            </div>
+            <h1 class="product-title">{{ product.name }}</h1>
+            <div class="product-rarity" [class]="getRarityClass()">
+              <span class="rarity-dot"></span>
+              <span>{{ product.rarity }}</span>
+            </div>
+          </div>
+
+          <div class="product-price-section">
+            <div class="current-price">{{ formatPrice(product.price) }}</div>
+            <div class="price-note">Đã bao gồm VAT</div>
+          </div>
+
+          <div class="product-stats">
+            <div class="stat">
+              <i class="bx bx-line-chart"></i>
+              <span>{{ product.sales || 0 }} đã bán</span>
+            </div>
+            <div class="stat" [class]="getStockClass()">
+              <i class="bx bx-package"></i>
+              <span>{{ getStockStatus() }}</span>
+            </div>
+            <div class="stat" *ngIf="product.releaseDate">
+              <i class="bx bx-calendar"></i>
+              <span>Ra mắt: {{ product.releaseDate | date: 'dd/MM/yyyy' }}</span>
+            </div>
+          </div>
+
+          <!-- Quantity Selector -->
+          <div class="quantity-selector" *ngIf="product.stock !== 0">
+            <label>Số lượng:</label>
+            <div class="quantity-control">
+              <button class="qty-btn" (click)="decreaseQuantity()" [disabled]="quantity <= 1">
+                -
+              </button>
+              <input
+                type="number"
+                [(ngModel)]="quantity"
+                min="1"
+                [max]="getMaxQuantity()"
+                readonly
+              />
+              <button
+                class="qty-btn"
+                (click)="increaseQuantity()"
+                [disabled]="product.stock && quantity >= product.stock"
+              >
+                +
+              </button>
+            </div>
+            <span class="stock-info" *ngIf="product.stock">Còn {{ product.stock }} sản phẩm</span>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <button class="btn-add-to-cart" (click)="addToCart()" [disabled]="product.stock === 0">
+              <i class="bx bx-shopping-bag"></i>
+              <span *ngIf="!addedToCart">Thêm vào giỏ</span>
+              <span *ngIf="addedToCart" class="added-success">
+                <i class="bx bx-check"></i> Đã thêm
+              </span>
+            </button>
+            <button class="btn-buy-now" (click)="buyNow()" [disabled]="product.stock === 0">
+              Mua ngay
+            </button>
+          </div>
+
+          <!-- Delivery Info -->
+          <div class="delivery-info">
+            <div class="info-item">
+              <i class="bx bx-check-shield"></i>
+              <div>
+                <strong>Bảo hành chính hãng</strong>
+                <p>Đổi trả trong 7 ngày</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="bx bx-truck"></i>
+              <div>
+                <strong>Miễn phí vận chuyển</strong>
+                <p>Cho đơn hàng từ 500.000đ</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="bx bx-credit-card"></i>
+              <div>
+                <strong>Thanh toán linh hoạt</strong>
+                <p>COD, chuyển khoản, thẻ tín dụng</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Details Tabs -->
+      <div class="product-tabs">
+        <div class="tabs-header">
+          <button
+            [class.active]="activeTab === 'description'"
+            (click)="setActiveTab('description')"
+          >
+            Mô tả sản phẩm
+          </button>
+          <button
+            [class.active]="activeTab === 'specifications'"
+            (click)="setActiveTab('specifications')"
+          >
+            Thông số kỹ thuật
+          </button>
+          <button [class.active]="activeTab === 'reviews'" (click)="setActiveTab('reviews')">
+            Đánh giá
+          </button>
+        </div>
+
+        <div class="tabs-content">
+          <!-- Description Tab -->
+          <div class="tab-pane" *ngIf="activeTab === 'description'">
+            <div class="description-content">
+              <h3>Giới thiệu {{ product.name }}</h3>
+              <p>
+                {{
+                  product.description ||
+                    'Skin vũ khí chất lượng cao dành cho game thủ chuyên nghiệp.'
+                }}
+              </p>
+
+              <h4>Đặc điểm nổi bật:</h4>
+              <ul>
+                <li>✔️ Thiết kế độc quyền, không đụng hàng</li>
+                <li>✔️ Hiệu ứng ánh sáng và âm thanh đặc trưng</li>
+                <li>✔️ Độ hiếm {{ product.rarity }} - Giá trị sưu tầm cao</li>
+                <li>✔️ Tương thích với tất cả các chế độ chơi</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Specifications Tab -->
+          <div class="tab-pane" *ngIf="activeTab === 'specifications'">
+            <div class="specifications-content">
+              <table class="specs-table">
+                <tr>
+                  <td>Tên sản phẩm</td>
+                  <td>{{ product.name }}</td>
+                </tr>
+                <tr>
+                  <td>Trò chơi</td>
+                  <td>{{ product.game }}</td>
+                </tr>
+                <tr>
+                  <td>Độ hiếm</td>
+                  <td>{{ product.rarity }}</td>
+                </tr>
+                <tr>
+                  <td>Ngày phát hành</td>
+                  <td>{{ product.releaseDate || 'Đang cập nhật' }}</td>
+                </tr>
+                <tr>
+                  <td>Loại vũ khí</td>
+                  <td>{{ getWeaponType(product.name) }}</td>
+                </tr>
+                <tr>
+                  <td>Bảo hành</td>
+                  <td>7 ngày đổi trả</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <!-- Reviews Tab -->
+          <div class="tab-pane" *ngIf="activeTab === 'reviews'">
+            <div class="reviews-content">
+              <div class="reviews-summary">
+                <div class="rating-score">
+                  <div class="score">4.8</div>
+                  <div class="stars">
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star-half"></i>
+                  </div>
+                  <div class="count">(128 đánh giá)</div>
+                </div>
+              </div>
+              <div class="reviews-list">
+                <div class="review-item">
+                  <div class="reviewer">
+                    <img
+                      src="https://ui-avatars.com/api/?background=ff4757&color=fff&name=Nguyen+V&size=40"
+                      alt="Avatar"
+                    />
+                    <div class="reviewer-info">
+                      <strong>Nguyễn Văn A</strong>
+                      <div class="stars">
+                        <i class="bx bxs-star"></i>
+                        <i class="bx bxs-star"></i>
+                        <i class="bx bxs-star"></i>
+                        <i class="bx bxs-star"></i>
+                        <i class="bx bxs-star"></i>
+                      </div>
+                      <span class="date">2 ngày trước</span>
+                    </div>
+                  </div>
+                  <p class="review-text">Skin đẹp, hiệu ứng mượt mà. Giao hàng nhanh!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related Products -->
+      <div class="related-products" *ngIf="relatedProducts.length > 0">
+        <h2 class="section-title">Sản phẩm liên quan</h2>
+        <div class="products-grid">
+          <div
+            class="product-card"
+            *ngFor="let item of relatedProducts"
+            (click)="navigateToProduct(item.name)"
+          >
+            <div class="product-image">
+              <img [src]="item.image" [alt]="item.name" />
+            </div>
+            <div class="product-info">
+              <h3 class="product-name">{{ item.name }}</h3>
+              <div class="product-price">{{ formatPrice(item.price) }}</div>
+              <button
+                class="btn-view"
+                (click)="$event.stopPropagation(); navigateToProduct(item.name)"
+              >
+                Xem chi tiết
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

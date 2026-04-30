@@ -1,0 +1,74 @@
+<header class="navbar">
+  <div class="container">
+    <div class="logo">
+      <a [routerLink]="isAdmin() ? '/admin/dashboard' : '/'">L&P <span>STORE</span></a>
+    </div>
+
+    <nav class="nav-menu" [class.active]="isMenuOpen">
+      <ul>
+        @if (isAdmin()) {
+          <li><a routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a></li>
+          <li><a routerLink="/admin/categories" routerLinkActive="active">Danh mục</a></li>
+          <li><a routerLink="/admin/products" routerLinkActive="active">Sản phẩm</a></li>
+          <li><a routerLink="/admin/users" routerLinkActive="active">Người dùng</a></li>
+        } @else {
+          <li>
+            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+              >Trang chủ</a
+            >
+          </li>
+          <li><a routerLink="/products" routerLinkActive="active">Sản phẩm</a></li>
+          <li><a routerLink="/about" routerLinkActive="active">Về chúng tôi</a></li>
+          <li><a routerLink="/contact" routerLinkActive="active">Liên hệ</a></li>
+        }
+      </ul>
+    </nav>
+
+    <div class="nav-icons">
+      @if (!isAdmin()) {
+        <a href="#"><i class="bx bx-search"></i></a>
+        <a routerLink="/cart" class="cart-icon">
+          <i class="bx bx-shopping-bag"></i>
+          <span class="badge">{{ cartCount }}</span>
+        </a>
+      }
+
+      @if (currentUser) {
+        @if (isAdmin()) {
+          <div class="user-menu admin-menu">
+            <div class="user-avatar">
+              <button type="button" class="admin-trigger">
+                <i class="bx bx-shield-quarter"></i>
+                <span>Quản trị</span>
+              </button>
+              <div class="dropdown-menu">
+                <a routerLink="/admin/dashboard"><i class="bx bx-grid-alt"></i> Dashboard</a>
+                <a routerLink="/admin/categories"><i class="bx bx-category"></i> Danh mục</a>
+                <a routerLink="/admin/products"><i class="bx bx-box"></i> Sản phẩm</a>
+                <a routerLink="/admin/users"><i class="bx bx-group"></i> Người dùng</a>
+                <a (click)="logout()"><i class="bx bx-log-out"></i> Đăng xuất</a>
+              </div>
+            </div>
+          </div>
+        } @else {
+          <div class="user-menu">
+            <div class="user-avatar">
+              <img [src]="currentUser.avatar" [alt]="currentUser.name" />
+              <div class="dropdown-menu">
+                <a routerLink="/profile"><i class="bx bx-user"></i> Hồ sơ</a>
+                <a routerLink="/orders"><i class="bx bx-package"></i> Đơn hàng</a>
+                <a (click)="logout()"><i class="bx bx-log-out"></i> Đăng xuất</a>
+              </div>
+            </div>
+          </div>
+        }
+      } @else {
+        <a routerLink="/login"><i class="bx bx-user"></i></a>
+      }
+
+      <div class="menu-toggle" (click)="toggleMenu()">
+        <i class="bx bx-menu"></i>
+      </div>
+    </div>
+  </div>
+</header>

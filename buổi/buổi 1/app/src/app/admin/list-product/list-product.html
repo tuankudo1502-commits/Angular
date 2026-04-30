@@ -1,0 +1,17 @@
+<p>list-product works!</p>
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Image</th>
+    <th>Add</th>
+  </tr>
+  <tr *ngFor="let p of products">
+    <td>{{ p.name }}</td>
+    <td>{{ p.name }}</td>
+    <td>{{ p.price }}</td>
+    <td><img [src]="p.image" [alt]="p.name" width="100"></td>
+    <td><button (click)="addToCart(p)">Add to Cart</button></td>
+  </tr>
+</table>

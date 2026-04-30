@@ -1,0 +1,108 @@
+<app-admin-layout>
+  <div class="admin-dashboard-shell">
+    <div class="admin-container">
+      <div class="page-header">
+        <div class="header-title">
+          <h2>Tổng quan quản trị</h2>
+          <p>{{ currentUser?.name || 'Quản trị viên' }} đang theo dõi trạng thái hệ thống</p>
+        </div>
+        <button class="btn-add">
+          <i class='bx bx-line-chart'></i> Xem báo cáo chi tiết
+        </button>
+      </div>
+
+      <div class="table-toolbar dashboard-toolbar">
+        <div class="search-bar">
+          <i class='bx bx-search'></i>
+          <input type="text" placeholder="Tìm kiếm nhanh...">
+        </div>
+        <div class="filter-group profile-group">
+          <div class="admin-profile">
+            <div class="admin-info">
+              <span>{{ currentUser?.name || 'Quản trị viên' }}</span>
+              <small>{{ currentUser?.role === 'admin' ? 'Quản trị viên' : 'Tài khoản quản trị' }}</small>
+            </div>
+            <img [src]="currentUser?.avatar || 'https://ui-avatars.com/api/?background=0E3746&color=fff&name=Admin&size=40'" alt="Admin">
+          </div>
+        </div>
+      </div>
+
+      <section class="stat-cards">
+        @for (stat of quickStats(); track stat.label) {
+          <div class="stat-card">
+            <div class="stat-icon" [class.purple]="stat.tone === 'purple'" [class.blue]="stat.tone === 'blue'" [class.orange]="stat.tone === 'orange'" [class.red]="stat.tone === 'red'">
+              <i [class]="'bx ' + stat.icon"></i>
+            </div>
+            <div class="stat-data">
+              <span class="label">{{ stat.label }}</span>
+              <h3 class="value">{{ stat.value }}</h3>
+              <span class="trend">
+                {{ stat.trend }}
+              </span>
+            </div>
+          </div>
+        }
+      </section>
+
+      <div class="table-card dashboard-card">
+        <div class="section-header">
+          <h3>Đơn hàng chờ xử lý</h3>
+          <button class="btn-primary">Xem tất cả</button>
+        </div>
+
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Khách hàng</th>
+              <th>Sản phẩm</th>
+              <th>Ngày đặt</th>
+              <th>Số tiền</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (loading()) {
+              <tr>
+                <td colspan="6">Đang tải dữ liệu từ MongoDB...</td>
+              </tr>
+            } @else if (error()) {
+              <tr>
+                <td colspan="6">{{ error() }}</td>
+              </tr>
+            } @else if (pendingOrders().length === 0) {
+              <tr>
+                <td colspan="6">Không có đơn hàng chờ xử lý.</td>
+              </tr>
+            } @else {
+              @for (order of pendingOrders(); track order.customerName + order.date) {
+                <tr>
+                  <td class="user-td">
+                    <img [src]="order.customerAvatar" [alt]="order.customerName">
+                    <span>{{ order.customerName }}</span>
+                  </td>
+                  <td>{{ order.productName }}</td>
+                  <td>{{ order.date }}</td>
+                  <td>{{ order.amount }}</td>
+                  <td><span class="badge warning">{{ order.status }}</span></td>
+                  <td><button class="action-btn"><i class='bx bx-dots-vertical-rounded'></i></button></td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+
+        <div class="pagination">
+          <span>Hiển thị {{ pendingOrders().length }} đơn chờ xử lý</span>
+          <div class="page-btns">
+            <button disabled><i class='bx bx-chevron-left'></i></button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button><i class='bx bx-chevron-right'></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-admin-layout>

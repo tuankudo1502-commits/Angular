@@ -1,0 +1,38 @@
+[
+  {
+    "name": "CS:GO Skins",
+    "slug": "csgo",
+    "description": "Skin vũ khí trong Counter-Strike: Global Offensive.",
+    "image": "https://example.com/images/csgo-category.jpg"
+  },
+  {
+    "name": "Valorant Skins",
+    "slug": "valorant",
+    "description": "Skin vũ khí trong Valorant với hiệu ứng hiện đại.",
+    "image": "https://example.com/images/valorant-category.jpg"
+  },
+  {
+    "name": "Call of Duty Skins",
+    "slug": "cod",
+    "description": "Skin vũ khí trong Call of Duty series.",
+    "image": "https://example.com/images/cod-category.jpg"
+  },
+  {
+    "name": "PUBG Skins",
+    "slug": "pubg",
+    "description": "Skin vũ khí trong PUBG: Battlegrounds.",
+    "image": "https://example.com/images/pubg-category.jpg"
+  },
+  {
+    "name": "Fortnite Skins",
+    "slug": "fortnite",
+    "description": "Skin vũ khí và vật phẩm trong Fortnite.",
+    "image": "https://example.com/images/fortnite-category.jpg"
+  },
+  {
+    "name": "Apex Legends Skins",
+    "slug": "apex",
+    "description": "Skin vũ khí trong Apex Legends.",
+    "image": "https://example.com/images/apex-category.jpg"
+  }
+]

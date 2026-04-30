@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="CS2 product art">
+  <defs>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2f80ed"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" rx="48" fill="url(#g2)"/>
+  <rect x="110" y="110" width="380" height="380" rx="36" fill="rgba(255,255,255,0.08)"/>
+  <path d="M180 370c40 40 100 60 150 60 55 0 110-20 150-60" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round"/>
+  <path d="M180 235h90l30 70 40-70h80l-65 110 75 110h-85l-45-80-50 80h-80l75-115-65-105z" fill="#fff" opacity="0.95"/>
+  <text x="50%" y="86%" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="48" font-weight="700">CS2</text>
+</svg>

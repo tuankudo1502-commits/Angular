@@ -1,0 +1,41 @@
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div class="admin-logo">
+      <span class="logo-text">L&P <span>ADMIN</span></span>
+    </div>
+
+    <nav class="admin-nav">
+      <a
+        routerLink="/admin/dashboard"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-item"
+      >
+        <i class='bx bxs-dashboard'></i> Tổng quan
+      </a>
+      <a routerLink="/admin/products" routerLinkActive="active" class="nav-item">
+        <i class='bx bxs-box'></i> Quản lý sản phẩm
+      </a>
+      <a routerLink="/admin/orders" routerLinkActive="active" class="nav-item">
+        <i class='bx bxs-cart-alt'></i> Đơn hàng
+      </a>
+      <a routerLink="/admin/users" routerLinkActive="active" class="nav-item">
+        <i class='bx bxs-user-detail'></i> Người dùng
+      </a>
+      <a routerLink="/admin/categories" routerLinkActive="active" class="nav-item">
+        <i class='bx bxs-category'></i> Danh mục
+      </a>
+      <div class="nav-divider"></div>
+      <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-item">
+        <i class='bx bxs-bar-chart-alt-2'></i> Báo cáo doanh thu
+      </a>
+      <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-item">
+        <i class='bx bxs-cog'></i> Cài đặt hệ thống
+      </a>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+    <ng-content></ng-content>
+  </main>
+</div>

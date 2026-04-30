@@ -1,0 +1,26 @@
+<div class="product-card" [class]="getRarityClass()" (click)="goToDetail()">
+  <div class="product-image">
+    <img [src]="p.image" [alt]="p.name" />
+    <div class="product-badges">
+      <span class="badge new" *ngIf="p.isNew">Mới</span>
+      <span class="badge limited" *ngIf="p.isLimited">Giới hạn</span>
+    </div>
+  </div>
+  <div class="product-info">
+    <div class="product-game" *ngIf="p.game">
+      <span>{{ p.game }}</span>
+    </div>
+    <h3 class="product-name">{{ p.name }}</h3>
+    <div class="product-rarity" *ngIf="p.rarity">
+      <span class="rarity-dot"></span>
+      <span>{{ p.rarity }}</span>
+    </div>
+    <div class="product-price">
+      {{ formatPrice(p.price) }}
+    </div>
+    <button class="add-to-cart-btn" (click)="$event.stopPropagation(); addToCart()">
+      <i class="bx bx-shopping-bag"></i>
+      Thêm vào giỏ
+    </button>
+  </div>
+</div>

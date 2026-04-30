@@ -1,0 +1,77 @@
+[
+  {
+    "username": "admin",
+    "email": "admin@lpstore.com",
+    "password": "123",
+    "role": "admin",
+    "fullName": "Mai Thái Tuấn",
+    "phone": "0901234567",
+    "avatar": "https://ui-avatars.com/api/?background=0E3746&color=fff&name=Admin&size=100",
+    "cart": [],
+    "receiveNews": true,
+    "createdAt": "2026-04-12T01:10:00Z"
+  },
+  {
+    "username": "user1",
+    "email": "tu.cam@student.fpt.edu.vn",
+    "password": "123",
+    "role": "user",
+    "fullName": "Cẩm Tú",
+    "phone": "0912345678",
+    "avatar": "https://ui-avatars.com/api/?background=ff4757&color=fff&name=C&size=100",
+    "cart": [
+      {
+        "productName": "Ghost | Sovereign",
+        "game": "Valorant",
+        "quantity": 1,
+        "price": 30
+      },
+      {
+        "productName": "Vandal | Prime",
+        "game": "Valorant",
+        "quantity": 1,
+        "price": 50
+      }
+    ],
+    "receiveNews": true,
+    "createdAt": "2026-04-12T01:10:00Z"
+  },
+  {
+    "username": "user2",
+    "email": "kien.dev@fpt.edu.vn",
+    "password": "123",
+    "role": "user",
+    "fullName": "Kiên",
+    "phone": "0987654321",
+    "avatar": "https://ui-avatars.com/api/?background=ff4757&color=fff&name=K&size=100",
+    "cart": [
+      {
+        "productName": "AK-47 | Redline",
+        "game": "CS:GO",
+        "quantity": 1,
+        "price": 120
+      }
+    ],
+    "receiveNews": false,
+    "createdAt": "2026-04-12T01:10:00Z"
+  },
+  {
+    "username": "user3",
+    "email": "thien.pdp@fpt.edu.vn",
+    "password": "123",
+    "role": "user",
+    "fullName": "Thiện",
+    "phone": "0933445566",
+    "avatar": "https://ui-avatars.com/api/?background=ff4757&color=fff&name=T&size=100",
+    "cart": [
+      {
+        "productName": "Karambit | Fade",
+        "game": "CS:GO",
+        "quantity": 1,
+        "price": 1500
+      }
+    ],
+    "receiveNews": true,
+    "createdAt": "2026-04-12T01:10:00Z"
+  }
+]

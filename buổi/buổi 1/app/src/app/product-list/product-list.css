@@ -1,0 +1,6 @@
+.product-list {
+    display: flex;         /* Kích hoạt chế độ dàn hàng ngang */
+    flex-wrap: wrap;       /* Tự động xuống dòng nếu hết chỗ */
+    gap: 20px;            /* Khoảng cách giữa các item */ /* Căn giữa các item (tùy chọn) */
+    padding: 20px;
+}

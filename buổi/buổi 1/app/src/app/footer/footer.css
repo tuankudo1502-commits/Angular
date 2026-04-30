@@ -1,0 +1,144 @@
+.footer {
+  background-color: #0a192f;
+  color: #8892b0;
+  padding: 80px 0 30px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-family: sans-serif;
+  margin-top: 7px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.brandSection .logo {
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.brandSection p {
+  line-height: 1.6;
+  font-size: 14px;
+  max-width: 280px;
+}
+
+.title {
+  color: #ccd6f6;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 25px;
+}
+
+.links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.links li {
+  margin-bottom: 12px;
+}
+
+.links a {
+  color: #8892b0;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.links a:hover {
+  color: #fff;
+}
+
+.newsletter p {
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+
+.inputGroup {
+  display: flex;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 5px;
+}
+
+.inputGroup input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 13px;
+  width: 100%;
+  padding: 8px 0;
+  outline: none;
+}
+
+.inputGroup button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 12px;
+  text-transform: uppercase;
+  cursor: pointer;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.bottomBar {
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.socials {
+  display: flex;
+  gap: 20px;
+}
+
+.socials a {
+  color: #8892b0;
+  font-size: 16px;
+  transition: transform 0.3s ease;
+}
+
+.socials a:hover {
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .brandSection {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .brandSection {
+    grid-column: span 1;
+    text-align: center;
+  }
+}

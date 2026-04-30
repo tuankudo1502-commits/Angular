@@ -1,0 +1,191 @@
+<div class="cart-container">
+  <div class="container">
+    <!-- Header -->
+    <div class="cart-header">
+      <h1>Giỏ hàng của bạn</h1>
+      <p *ngIf="cartItems.length > 0">Có {{ getCartCount() }} sản phẩm trong giỏ hàng</p>
+      <p *ngIf="cartItems.length === 0 && !isLoading">Giỏ hàng đang trống</p>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Đang tải giỏ hàng...</p>
+    </div>
+
+    <!-- Cart Content -->
+    <div *ngIf="!isLoading && cartItems.length > 0" class="cart-content">
+      <div class="cart-main">
+        <!-- Cart Items -->
+        <div class="cart-items">
+          <div class="cart-items-header">
+            <div class="product-col">Sản phẩm</div>
+            <div class="price-col">Đơn giá</div>
+            <div class="quantity-col">Số lượng</div>
+            <div class="total-col">Thành tiền</div>
+            <div class="action-col"></div>
+          </div>
+
+          <div class="cart-item" *ngFor="let item of cartItems">
+            <div class="product-col">
+              <div class="product-info">
+                <img [src]="item.image" [alt]="item.name" class="product-image" />
+                <div class="product-details">
+                  <h3 class="product-name">{{ item.name }}</h3>
+                  <div class="product-meta">
+                    <span class="game">{{ item.game }}</span>
+                    <span class="rarity" [class]="getRarityClass(item.rarity)">{{
+                      item.rarity
+                    }}</span>
+                  </div>
+                  <div class="stock-status" [class.low-stock]="isLowStock(item)">
+                    <i class="bx bx-package"></i>
+                    {{ getStockStatus(item) }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="price-col">
+              <div class="price">{{ formatPrice(item.price) }}</div>
+            </div>
+
+            <div class="quantity-col">
+              <div class="quantity-control">
+                <button
+                  class="qty-btn"
+                  (click)="updateQuantity(item, item.quantity - 1)"
+                  [disabled]="isUpdating || item.quantity <= 1"
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  [(ngModel)]="item.quantity"
+                  (change)="updateQuantity(item, item.quantity)"
+                  min="1"
+                  [max]="item.stock || 99"
+                  [disabled]="isUpdating"
+                />
+                <button
+                  class="qty-btn"
+                  (click)="updateQuantity(item, item.quantity + 1)"
+                  [disabled]="isUpdating || (item.stock && item.quantity >= item.stock)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <div class="total-col">
+              <div class="total">{{ getItemTotalFormatted(item) }}</div>
+            </div>
+
+            <div class="action-col">
+              <button class="remove-btn" (click)="removeItem(item)" [disabled]="isUpdating">
+                <i class="bx bx-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Continue Shopping -->
+        <div class="continue-shopping">
+          <button class="btn-continue" (click)="continueShopping()">
+            <i class="bx bx-arrow-back"></i>
+            Tiếp tục mua sắm
+          </button>
+          <button class="btn-clear" (click)="clearCart()" *ngIf="cartItems.length > 0">
+            <i class="bx bx-trash"></i>
+            Xóa tất cả
+          </button>
+        </div>
+      </div>
+
+      <!-- Cart Summary -->
+      <div class="cart-summary">
+        <h2>Thông tin đơn hàng</h2>
+
+        <div class="summary-details">
+          <div class="summary-row">
+            <span>Tạm tính:</span>
+            <span>{{ formatPrice(getSubtotal()) }}</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Phí vận chuyển:</span>
+            <span *ngIf="getShippingFee() === 0">Miễn phí</span>
+            <span *ngIf="getShippingFee() > 0">{{ formatPrice(getShippingFee()) }}</span>
+          </div>
+
+          <div
+            class="summary-row shipping-note"
+            *ngIf="getSubtotal() < 500000 && getSubtotal() > 0"
+          >
+            <i class="bx bx-info-circle"></i>
+            <span
+              >Mua thêm {{ formatPrice(500000 - getSubtotal()) }} để được miễn phí vận chuyển</span
+            >
+          </div>
+
+          <div class="summary-row total">
+            <span>Tổng cộng:</span>
+            <span>{{ formatPrice(getTotal()) }}</span>
+          </div>
+        </div>
+
+        <div class="checkout-section">
+          <button class="btn-checkout" (click)="checkout()">Tiến hành thanh toán</button>
+          <div class="payment-methods">
+            <i class="bx bxl-visa"></i>
+            <i class="bx bxl-mastercard"></i>
+            <i class="bx bxl-paypal"></i>
+            <i class="bx bx-credit-card"></i>
+            <i class="bx bx-qr"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty Cart -->
+    <div *ngIf="!isLoading && cartItems.length === 0" class="empty-cart">
+      <div class="empty-cart-content">
+        <i class="bx bx-shopping-bag"></i>
+        <h2>Giỏ hàng của bạn đang trống</h2>
+        <p>Hãy thêm sản phẩm vào giỏ hàng để tiếp tục mua sắm</p>
+        <button class="btn-shop-now" (click)="continueShopping()">Mua sắm ngay</button>
+      </div>
+    </div>
+
+    <!-- Recommended Products -->
+    <div
+      *ngIf="!isLoading && cartItems.length > 0 && getRecommendProducts().length > 0"
+      class="recommended-section"
+    >
+      <h2 class="section-title">Gợi ý cho bạn</h2>
+      <div class="recommended-grid">
+        <div
+          class="recommended-card"
+          *ngFor="let product of getRecommendProducts()"
+          (click)="navigateToProduct(product.name)"
+        >
+          <div class="product-image">
+            <img [src]="product.image" [alt]="product.name" />
+            <div class="product-badges" *ngIf="product.isNew || product.isLimited">
+              <span class="badge new" *ngIf="product.isNew">Mới</span>
+              <span class="badge limited" *ngIf="product.isLimited">Giới hạn</span>
+            </div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">{{ product.name }}</h3>
+            <div class="product-price">{{ formatPrice(product.price) }}</div>
+            <button class="btn-add" (click)="$event.stopPropagation(); addToCart(product)">
+              <i class="bx bx-cart-add"></i>
+              Thêm vào giỏ
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,216 @@
+<div class="register-container">
+  <div class="register-wrapper">
+    <!-- Left Side - Branding -->
+    <div class="register-brand">
+      <div class="brand-content">
+        <div class="logo">
+          <h1>L&P <span>STORE</span></h1>
+        </div>
+        <div class="brand-message">
+          <div class="message-icon">
+            <i class="bx bx-rocket"></i>
+          </div>
+          <h2>Tham gia cộng đồng game thủ</h2>
+          <p>Đăng ký ngay để nhận ưu đãi đặc biệt và cập nhật skin mới nhất</p>
+        </div>
+        <div class="benefits">
+          <div class="benefit-item">
+            <i class="bx bx-gift"></i>
+            <span>Nhận ngay 100.000đ cho thành viên mới</span>
+          </div>
+          <div class="benefit-item">
+            <i class="bx bx-timer"></i>
+            <span>Ưu đãi độc quyền mỗi tuần</span>
+          </div>
+          <div class="benefit-item">
+            <i class="bx bx-support"></i>
+            <span>Hỗ trợ ưu tiên 24/7</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side - Register Form -->
+    <div class="register-form">
+      <div class="form-container">
+        <div class="form-header">
+          <h2>Tạo tài khoản mới</h2>
+          <p>Điền thông tin để bắt đầu hành trình săn skin</p>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" *ngIf="successMessage">
+          <i class="bx bx-check-circle"></i>
+          <span>{{ successMessage }}</span>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message" *ngIf="errorMessage">
+          <i class="bx bx-error-circle"></i>
+          <span>{{ errorMessage }}</span>
+        </div>
+
+        <!-- Register Form -->
+        <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+          <!-- Full Name -->
+          <div class="form-group">
+            <label for="fullName">Họ và tên <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <i class="bx bx-user"></i>
+              <input
+                type="text"
+                id="fullName"
+                [(ngModel)]="registerData.fullName"
+                name="fullName"
+                placeholder="Nguyễn Văn A"
+                [class.error]="errors.fullName"
+              />
+            </div>
+            <div class="error-text" *ngIf="errors.fullName">{{ errors.fullName }}</div>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">Email <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <i class="bx bx-envelope"></i>
+              <input
+                type="email"
+                id="email"
+                [(ngModel)]="registerData.email"
+                name="email"
+                placeholder="example@email.com"
+                [class.error]="errors.email"
+              />
+            </div>
+            <div class="error-text" *ngIf="errors.email">{{ errors.email }}</div>
+          </div>
+
+          <!-- Phone -->
+          <div class="form-group">
+            <label for="phone">Số điện thoại <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <i class="bx bx-phone"></i>
+              <input
+                type="tel"
+                id="phone"
+                [(ngModel)]="registerData.phone"
+                name="phone"
+                placeholder="0123456789"
+                [class.error]="errors.phone"
+              />
+            </div>
+            <div class="error-text" *ngIf="errors.phone">{{ errors.phone }}</div>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label for="password">Mật khẩu <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <i class="bx bx-lock-alt"></i>
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                id="password"
+                [(ngModel)]="registerData.password"
+                name="password"
+                placeholder="••••••••"
+                [class.error]="errors.password"
+              />
+              <i
+                class="bx bx-show-alt toggle-password"
+                (click)="togglePassword()"
+                [class.bx-hide]="showPassword"
+              ></i>
+            </div>
+            <div class="error-text" *ngIf="errors.password">{{ errors.password }}</div>
+
+            <!-- Password Strength Meter -->
+            <div class="password-strength" *ngIf="registerData.password">
+              <div class="strength-meter">
+                <div class="strength-bar" [class]="checkPasswordStrength()"></div>
+              </div>
+              <div class="strength-text">
+                Độ mạnh: {{ getPasswordStrengthText() }}
+                <span class="strength-hint" *ngIf="checkPasswordStrength() !== 'strong'">
+                  (Cần ít nhất 1 chữ hoa, 1 chữ thường và 1 số)
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group">
+            <label for="confirmPassword">Xác nhận mật khẩu <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <i class="bx bx-lock-alt"></i>
+              <input
+                [type]="showConfirmPassword ? 'text' : 'password'"
+                id="confirmPassword"
+                [(ngModel)]="registerData.confirmPassword"
+                name="confirmPassword"
+                placeholder="••••••••"
+                [class.error]="errors.confirmPassword"
+              />
+              <i
+                class="bx bx-show-alt toggle-password"
+                (click)="toggleConfirmPassword()"
+                [class.bx-hide]="showConfirmPassword"
+              ></i>
+            </div>
+            <div class="error-text" *ngIf="errors.confirmPassword">
+              {{ errors.confirmPassword }}
+            </div>
+          </div>
+
+          <!-- Options -->
+          <div class="form-options">
+            <label class="checkbox-label">
+              <input type="checkbox" [(ngModel)]="registerData.agreeTerms" name="agreeTerms" />
+              <span
+                >Tôi đồng ý với <a href="#" class="link">Điều khoản sử dụng</a> và
+                <a href="#" class="link">Chính sách bảo mật</a>
+                <span class="required">*</span></span
+              >
+            </label>
+            <div class="error-text" *ngIf="errors.agreeTerms">{{ errors.agreeTerms }}</div>
+          </div>
+
+          <div class="form-options">
+            <label class="checkbox-label">
+              <input type="checkbox" [(ngModel)]="registerData.receiveNews" name="receiveNews" />
+              <span>Nhận thông tin khuyến mãi và ưu đãi qua email</span>
+            </label>
+          </div>
+
+          <!-- Register Button -->
+          <button type="submit" class="btn-register" [disabled]="isLoading">
+            <span *ngIf="!isLoading">Đăng ký ngay</span>
+            <span *ngIf="isLoading" class="loading-spinner"></span>
+          </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="divider">
+          <span>Hoặc đăng ký với</span>
+        </div>
+
+        <!-- Social Register -->
+        <div class="social-register">
+          <button class="social-btn google" (click)="loginWithGoogle()">
+            <i class="bx bxl-google"></i>
+            Google
+          </button>
+          <button class="social-btn facebook" (click)="loginWithFacebook()">
+            <i class="bx bxl-facebook"></i>
+            Facebook
+          </button>
+        </div>
+
+        <!-- Login Link -->
+        <div class="login-link">
+          <p>Đã có tài khoản? <a routerLink="/login">Đăng nhập ngay</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
